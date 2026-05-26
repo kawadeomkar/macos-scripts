@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Logs written by brew-app-scan.sh
+*.log
+*.err
+
+# Secrets / environment files (never commit these)
+.env
+.env.*
+*.pem
+*.key
+credentials*
+secrets*

@@ -36,7 +36,7 @@ Apps that were manually installed and have been migrated to Homebrew Cask manage
 | Tailscale | `tailscale-app` | ✅ Done | auto_updates |
 | Visual Studio Code | `visual-studio-code` | ✅ Done | auto_updates |
 | Windscribe | `windscribe` | ⚠️ Installer Only | Cask downloads installer only — `WindscribeInstaller.app` launched from `/usr/local/Caskroom/windscribe/2.22.10/`. Complete GUI install to finish. |
-| iStat Menus | `istat-menus` | ✅ Done | Paid app — license key stored in app, unaffected |
+| iStat Menus | `istat-menus` | ✅ Done | Paid app — license unaffected by cask migration |
 | Disk Inventory X | `disk-inventory-x` | ⚠️ Deprecated | Installed but cask deprecated (Gatekeeper check failure) — will be disabled 2026-09-01. Find replacement before then. |
 | WinBox | `winbox` | ✅ Done | |
 | UniFi Network Controller | `ubiquiti-unifi-controller` | ⚠️ Deprecated | Installed as `UniFi.app`. Cask deprecated (Gatekeeper check failure) — will be disabled 2026-09-01. Monitor for updated cask. |
@@ -80,7 +80,7 @@ brew bundle dump --force --file=~/Brewfile
 - [x] Install `mas` (Mac App Store CLI) — already installed (v7.0.0)
 - [x] Install `topgrade` for unified one-command updates — already installed (v17.5.1)
 - [x] Install `latest` cask for GUI update dashboard — installed 2026-05-26
-- [x] Generate `Brewfile` — saved to `~/homeserver/Brewfile` (80 formulae, 22 casks, 3 MAS apps, 20 VS Code extensions)
+- [x] Generate `Brewfile` — saved to `~/macos_scripts/Brewfile` (80 formulae, 22 casks, 3 MAS apps, 20 VS Code extensions)
 
 ## Ongoing Maintenance
 
@@ -97,7 +97,7 @@ brew bundle install --file=~/path/to/Brewfile
 
 ### Update Brewfile after installing new apps
 ```sh
-brew bundle dump --force --file=~/homeserver/Brewfile
+brew bundle dump --force --file=~/macos_scripts/Brewfile
 ```
 
 ### GUI update dashboard
