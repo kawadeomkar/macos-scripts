@@ -112,7 +112,8 @@ if [[ -d "$HOMESERVER_DIR/.git" ]]; then
   git add Brewfile
   if ! git diff --cached --quiet; then
     git commit -m "chore(brew): update Brewfile from daily app scan $(date +%Y-%m-%d)"
-    log "Committed updated Brewfile to repo."
+    git push origin main
+    log "Committed and pushed updated Brewfile to repo."
   else
     log "Brewfile unchanged — no commit needed."
   fi
