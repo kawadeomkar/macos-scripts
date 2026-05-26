@@ -41,13 +41,55 @@ SKIP_APPS=(
 $LIST_ONLY || log "Building brew-managed app list..."
 declare -A BREW_MANAGED  # "AppName.app" → "cask-name"
 
+# Extract app names from cask JSON artifacts:
+#   artifacts[].app[0]               — direct app artifact (most casks)
+#   artifacts[].uninstall[].delete   — pkg/installer casks that reference /Applications/*.app
+#   artifacts[].uninstall[].login_item — system extension casks (e.g. Tailscale)
+_extract_apps() {
+  python3 -c "
+import json, sys, re
+raw = sys.stdin.read().strip()
+if not raw: sys.exit(0)
+try:
+    data = json.loads(raw)
+except: sys.exit(0)
+cask = data.get('casks', [{}])[0]
+apps = set()
+has_app_artifact = False
+for artifact in cask.get('artifacts', []):
+    if 'app' in artifact:
+        apps.add(artifact['app'][0])
+        has_app_artifact = True
+    if 'uninstall' in artifact:
+        for u in artifact['uninstall']:
+            for path in u.get('delete', []):
+                m = re.search(r'/Applications/([^/]+\.app)', str(path))
+                if m: apps.add(m.group(1))
+            li = u.get('login_item')
+            if isinstance(li, str): apps.add(li + '.app')
+            elif isinstance(li, list): [apps.add(x + '.app') for x in li]
+# pkg-only casks (e.g. virtualbox) have no app artifact — derive name from token
+# and resolve the real on-disk name case-insensitively via os.listdir
+if not has_app_artifact and not apps:
+    import os
+    token = cask.get('token', '')
+    if token:
+        guessed_lower = token.replace('-', '').lower() + '.app'
+        try:
+            for entry in os.listdir('/Applications/'):
+                if entry.lower().replace(' ', '') == guessed_lower and entry.endswith('.app'):
+                    apps.add(entry)
+                    break
+        except OSError:
+            pass
+for a in sorted(apps): print(a)
+"
+}
+
 while IFS= read -r cask; do
-  # Parse artifact app names from cask info (line format: "AppName.app (App)")
   while IFS= read -r app_name; do
     [[ -n "$app_name" ]] && BREW_MANAGED["$app_name"]="$cask"
-  done < <(brew info --cask "$cask" 2>/dev/null \
-    | grep -E '\.app \(App\)' \
-    | awk '{print $1}')
+  done < <(brew info --cask --json=v2 "$cask" 2>/dev/null | _extract_apps)
 done < <(brew list --cask 2>/dev/null)
 
 $LIST_ONLY || log "Found ${#BREW_MANAGED[@]} brew-managed apps."
@@ -58,7 +100,8 @@ declare -A MAS_MANAGED  # "AppName.app" → 1
 
 while IFS= read -r line; do
   # mas list format: "1234567890  App Name  (version)"
-  app_name=$(echo "$line" | sed 's/^[0-9 ]*//' | sed 's/ ([0-9.]*)$//')
+  # Strip leading ID, trailing version, and any trailing whitespace (mas pads names)
+  app_name=$(echo "$line" | sed 's/^[0-9 ]*//' | sed 's/  *([0-9.]*)$//' | sed 's/[[:space:]]*$//')
   [[ -n "$app_name" ]] && MAS_MANAGED["${app_name}.app"]=1
 done < <(mas list 2>/dev/null)
 
