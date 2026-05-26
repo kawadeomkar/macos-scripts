@@ -2,15 +2,27 @@
 # brew-app-scan.sh
 # Daily scan: finds apps in /Applications not managed by Homebrew or MAS,
 # checks for brew cask equivalents, installs them, and sends a notification.
+#
+# Usage:
+#   brew-app-scan.sh          — full run: scan, install casks, notify, push Brewfile
+#   brew-app-scan.sh --list   — dry run: print unmanaged apps only, no changes
 
 set -uo pipefail
 
-HOMESERVER_DIR="$HOME/macos_scripts"
-LOG_FILE="/tmp/brew-app-scan-$(date +%Y%m%d).log"
-exec > >(tee -a "$LOG_FILE") 2>&1
+LIST_ONLY=false
+[[ "${1:-}" == "--list" ]] && LIST_ONLY=true
 
-log() { echo "[$(date '+%H:%M:%S')] $*"; }
-log "── Brew App Scanner starting ──────────────────────────────────"
+HOMESERVER_DIR="$HOME/macos_scripts"
+
+if $LIST_ONLY; then
+  log() { echo "$*"; }
+else
+  LOG_FILE="/tmp/brew-app-scan-$(date +%Y%m%d).log"
+  exec > >(tee -a "$LOG_FILE") 2>&1
+  log() { echo "[$(date '+%H:%M:%S')] $*"; }
+fi
+
+$LIST_ONLY || log "── Brew App Scanner starting ──────────────────────────────────"
 
 # ── Apps to always skip (system, built-in, no cask available) ────────────────
 SKIP_APPS=(
@@ -26,7 +38,7 @@ SKIP_APPS=(
 )
 
 # ── Step 1: Build map of brew-managed app names ──────────────────────────────
-log "Building brew-managed app list..."
+$LIST_ONLY || log "Building brew-managed app list..."
 declare -A BREW_MANAGED  # "AppName.app" → "cask-name"
 
 while IFS= read -r cask; do
@@ -38,10 +50,10 @@ while IFS= read -r cask; do
     | awk '{print $1}')
 done < <(brew list --cask 2>/dev/null)
 
-log "Found ${#BREW_MANAGED[@]} brew-managed apps."
+$LIST_ONLY || log "Found ${#BREW_MANAGED[@]} brew-managed apps."
 
 # ── Step 2: Build map of MAS-managed app names ───────────────────────────────
-log "Building MAS-managed app list..."
+$LIST_ONLY || log "Building MAS-managed app list..."
 declare -A MAS_MANAGED  # "AppName.app" → 1
 
 while IFS= read -r line; do
@@ -50,10 +62,10 @@ while IFS= read -r line; do
   [[ -n "$app_name" ]] && MAS_MANAGED["${app_name}.app"]=1
 done < <(mas list 2>/dev/null)
 
-log "Found ${#MAS_MANAGED[@]} MAS-managed apps."
+$LIST_ONLY || log "Found ${#MAS_MANAGED[@]} MAS-managed apps."
 
 # ── Step 3: Scan /Applications for unmanaged apps ────────────────────────────
-log "Scanning /Applications..."
+$LIST_ONLY || log "Scanning /Applications..."
 UNMANAGED=()
 
 while IFS= read -r app_path; do
@@ -73,8 +85,27 @@ while IFS= read -r app_path; do
   [[ -n "${MAS_MANAGED[$app_name]+_}" ]] && continue
 
   UNMANAGED+=("$app_path")
-  log "Unmanaged: $app_name"
 done < <(find /Applications ~/Applications -maxdepth 2 -name "*.app" 2>/dev/null | sort)
+
+# ── --list mode: print results and exit ──────────────────────────────────────
+if $LIST_ONLY; then
+  echo "Apps not managed by Homebrew or MAS (${#UNMANAGED[@]} found):"
+  echo ""
+  if [[ ${#UNMANAGED[@]} -eq 0 ]]; then
+    echo "  ✓ All apps are managed."
+  else
+    for app_path in "${UNMANAGED[@]}"; do
+      app_name=$(basename "$app_path")
+      cask_guess=$(echo "${app_name%.app}" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+      if brew info --cask "$cask_guess" &>/dev/null 2>&1; then
+        echo "  $app_name  →  brew install --cask $cask_guess  (cask available)"
+      else
+        echo "  $app_name  →  no cask found"
+      fi
+    done
+  fi
+  exit 0
+fi
 
 log "${#UNMANAGED[@]} unmanaged app(s) found."
 
