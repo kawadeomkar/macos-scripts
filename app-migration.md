@@ -7,18 +7,18 @@
 ## Already Managed by Homebrew ✅
 These apps were already installed and tracked via `brew install --cask` prior to this migration.
 
-| App | Cask / Formula | Type |
-|-----|---------------|------|
-| Docker | `docker`, `docker-desktop` | cask |
-| iTerm2 | `iterm2` | cask |
-| Multipass | `multipass` | cask |
-| Stats | `stats` | cask |
-| VirtualBox | `virtualbox` | cask |
-| Vagrant | `vagrant` | cask |
-| Java (AdoptOpenJDK 8) | `adoptopenjdk8` | cask |
-| Java (AdoptOpenJDK 11) | `adoptopenjdk11` | cask |
-| Java (AdoptOpenJDK 16) | `adoptopenjdk16` | cask |
-| Java (latest) | `java` | formula |
+| App | Cask / Formula | Type | Notes |
+|-----|---------------|------|-------|
+| Docker | `docker`, `docker-desktop` | cask | |
+| iTerm2 | `iterm2` | cask | |
+| Multipass | `multipass` | cask | |
+| Stats | `stats` | cask | |
+| VirtualBox | `virtualbox` | cask | |
+| Vagrant | `vagrant` | cask | |
+| Java (AdoptOpenJDK 8) | `adoptopenjdk8` | cask | ⚠️ **DEPRECATED TAP**: AdoptOpenJDK/homebrew-openjdk deprecated 2021-08-01, no further updates. **Replace with** `brew install --cask temurin8` (from `homebrew/cask-versions` tap). (Flagged 2026-08-03) |
+| Java (AdoptOpenJDK 11) | `adoptopenjdk11` | cask | ⚠️ **DEPRECATED TAP**: AdoptOpenJDK/homebrew-openjdk deprecated 2021-08-01, no further updates. **Replace with** `brew install --cask temurin11` (from `homebrew/cask-versions` tap). (Flagged 2026-08-03) |
+| Java (AdoptOpenJDK 16) | `adoptopenjdk16` | cask | ⚠️ **DEPRECATED TAP**: AdoptOpenJDK/homebrew-openjdk deprecated 2021-08-01, no further updates. **Replace with** `brew install --cask temurin` for latest LTS. (Flagged 2026-08-03) |
+| Java (latest) | `java` | formula | |
 
 ---
 
@@ -39,7 +39,7 @@ Apps that were manually installed and have been migrated to Homebrew Cask manage
 | iStat Menus | `istat-menus` | ✅ Done | Paid app — license unaffected by cask migration |
 | Disk Inventory X | `disk-inventory-x` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: consider `daisydisk` or `grandperspective` casks. (Flagged 2026-07-25) |
 | WinBox | `winbox` | ✅ Done | |
-| UniFi Network Controller | `ubiquiti-unifi-controller` | ⚠️ Deprecated | Installed as `UniFi.app`. Cask deprecated (Gatekeeper check failure) — will be disabled 2026-09-01. Monitor for updated cask. |
+| UniFi Network Controller | `ubiquiti-unifi-controller` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: download directly from [Ubiquiti](https://www.ui.com/download/unifi) or check for an updated cask. (Flagged 2026-08-03) |
 
 ---
 
