@@ -33,13 +33,13 @@ Apps that were manually installed and have been migrated to Homebrew Cask manage
 | Discord | `discord` | ✅ Done | auto_updates |
 | Google Chrome | `google-chrome` | ✅ Done | auto_updates |
 | Spotify | `spotify` | ✅ Done | auto_updates |
-| Tailscale | `tailscale-app` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: use `tailscale` cask or install directly from tailscale.com. (Flagged 2026-07-25) |
+| Tailscale | `tailscale-app` | ✅ Done | auto_updates. (Previously flagged ❌ disabled 2026-07-25; re-checked 2026-08-16 — cask is **healthy** again, no disable marker present.) |
 | Visual Studio Code | `visual-studio-code` | ✅ Done | auto_updates |
 | Windscribe | `windscribe` | ⚠️ Installer Only | Cask downloads installer only — `WindscribeInstaller.app` launched from `/usr/local/Caskroom/windscribe/2.22.10/`. Complete GUI install to finish. |
 | iStat Menus | `istat-menus` | ✅ Done | Paid app — license unaffected by cask migration |
-| Disk Inventory X | `disk-inventory-x` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: consider `daisydisk` or `grandperspective` casks. (Flagged 2026-07-25) |
+| Disk Inventory X | `disk-inventory-x` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: consider `daisydisk` or `grandperspective` casks. (Flagged 2026-07-25; re-confirmed 2026-08-16 — disable date is 16 days away) |
 | WinBox | `winbox` | ✅ Done | |
-| UniFi Network Controller | `ubiquiti-unifi-controller` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: download directly from [Ubiquiti](https://www.ui.com/download/unifi) or check for an updated cask. (Flagged 2026-08-03) |
+| UniFi Network Controller | `ubiquiti-unifi-controller` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: download directly from [Ubiquiti](https://www.ui.com/download/unifi) or check for an updated cask. (Flagged 2026-08-03; re-confirmed 2026-08-16 — disable date is 16 days away) |
 
 ---
 
