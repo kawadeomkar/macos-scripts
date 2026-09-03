@@ -37,9 +37,9 @@ Apps that were manually installed and have been migrated to Homebrew Cask manage
 | Visual Studio Code | `visual-studio-code` | ✅ Done | auto_updates |
 | Windscribe | `windscribe` | ⚠️ Installer Only | Cask downloads installer only — `WindscribeInstaller.app` launched from `/usr/local/Caskroom/windscribe/2.22.10/`. Complete GUI install to finish. |
 | iStat Menus | `istat-menus` | ✅ Done | Paid app — license unaffected by cask migration |
-| Disk Inventory X | `disk-inventory-x` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: consider `daisydisk` or `grandperspective` casks. (Flagged 2026-07-25; re-confirmed 2026-08-16 — **disable date 2026-09-01 is 2 days away — act now**. Live check 2026-08-30 skipped: formulae.brew.sh blocked by network policy.) |
+| Disk Inventory X | `disk-inventory-x` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: consider `daisydisk` or `grandperspective` casks. (Flagged 2026-07-25; re-confirmed 2026-08-16 — disable date 2026-09-01 is now **2 days past** as of 2026-09-03. Live checks 2026-08-30 and 2026-09-03 skipped: formulae.brew.sh blocked by network policy.) |
 | WinBox | `winbox` | ✅ Done | |
-| UniFi Network Controller | `ubiquiti-unifi-controller` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: download directly from [Ubiquiti](https://www.ui.com/download/unifi) or check for an updated cask. (Flagged 2026-08-03; re-confirmed 2026-08-16 — **disable date 2026-09-01 is 2 days away — act now**. Live check 2026-08-30 skipped: formulae.brew.sh blocked by network policy.) |
+| UniFi Network Controller | `ubiquiti-unifi-controller` | ❌ Disabled | Cask **disabled** (fails_gatekeeper_check, effective 2026-09-01) — no longer installable from Homebrew. **Needs replacement**: download directly from [Ubiquiti](https://www.ui.com/download/unifi) or check for an updated cask. (Flagged 2026-08-03; re-confirmed 2026-08-16 — disable date 2026-09-01 is now **2 days past** as of 2026-09-03. Live checks 2026-08-30 and 2026-09-03 skipped: formulae.brew.sh blocked by network policy.) |
 
 ---
 
